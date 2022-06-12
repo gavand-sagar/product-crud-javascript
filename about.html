@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <div>
+            <h1 id="heading"></h1>
+
+            <div>
+                Product Model : <input type="text" id="model">
+            </div>
+
+            <div>
+                Product Brand : <input type="text" id="brand">
+            </div>
+
+            <div>
+                Product Price : <input type="number" id="price">
+            </div>
+            <div>
+                <button onclick="addProduct()">Save</button>
+                <button onclick="resetForm()">Reset</button>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h1>Product List</h1>
+            <button onclick="showAll()">Show All</button>
+            <button onclick="makeUpperCase()">Make Upper Case</button>
+            <button onclick="onlyGreaterThanFiveHundred()">Only price greater than 500</button>
+            <button onclick="onlyLessThanFiveHundred()">Only price Less than 500</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="product-grid">
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <script>
+
+
+        let mobilesCollection = [
+            {
+                brand: 'Apple',
+                model: '13 pro',
+                price: 1000
+            },
+            {
+                brand: 'Xiome',
+                model: 'K40',
+                price: 500
+            },
+            {
+                brand: 'Samsung',
+                model: 's20',
+                price: 2000
+            },
+            {
+                brand: 'Nokia',
+                model: '3110',
+                price: 50
+            }
+        ]
+
+        let visibleItemsCollection = [];
+
+        function addProduct() {
+
+            //fetching input value
+            let brandInputValue = document.getElementById('brand').value;
+            let modelInputValue = document.getElementById('model').value;
+            let priceInputValue = document.getElementById('price').value;
+
+            let newMobile = {
+                brand: brandInputValue,
+                model: modelInputValue,
+                price: priceInputValue
+            }
+
+            // // adding new object in previous collection
+            mobilesCollection.push(newMobile)
+
+            // re calculate html for table based on array
+            showAll();
+
+            //change input value
+            resetForm()
+        }
+
+        function resetForm() {
+            document.getElementById('brand').value = ''
+            document.getElementById('model').value = ''
+            document.getElementById('price').value = ''
+        }
+
+
+
+        function makeUpperCase() {
+
+
+        }
+
+        function showAll() {
+
+            visibleItemsCollection = []
+            // Copying everthing from main collection(mobilesCollection)  to visibleItemsCollection
+            for (const item of mobilesCollection) {
+                visibleItemsCollection.push(item);
+            }
+            displayMobiles()
+        }
+
+        function onlyGreaterThanFiveHundred() {
+
+            visibleItemsCollection = []
+            for (const item of mobilesCollection) {
+                // checking before copying single record 
+                if (item.price > 500) {
+                    visibleItemsCollection.push(item);
+                }
+
+            }
+            displayMobiles()
+        }
+
+        function onlyLessThanFiveHundred() {
+            visibleItemsCollection = [];
+            for (const item of mobilesCollection) {
+                // checking before copying single record 
+                if (item.price < 500) {
+                    visibleItemsCollection.push(item)
+                }
+            }
+            displayMobiles()
+        }
+
+        function displayMobiles() {
+            // here whatever we have is going exec on page load
+            document.getElementById('product-grid').innerHTML = ""
+
+            for (const item of visibleItemsCollection) {
+
+                let mobileName = item.model;
+                let brandName = item.brand;
+                let price = item.price;
+
+                //adding a new row after the last row you in tbody  
+                // template literal               
+                document.getElementById('product-grid').innerHTML +=
+                    `<tr>
+                        <td>${mobileName}</td>
+                        <td>${brandName}</td>
+                        <td>$ ${price} /-</td>
+                    </tr>`;
+            }
+        }
+
+        displayMobiles()
+
+
+    </script>
+</body>
+
+</html>
